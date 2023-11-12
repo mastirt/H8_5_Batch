@@ -1,16 +1,18 @@
 from flask import Flask, render_template, request
-from sklearn.preprocessing import RobustScaler
 import pandas as pd
 import pickle
 
 app = Flask(__name__)
 
-loaded_model = pickle.load(open('model.pkl', 'rb'))
-
-robust_scaler = RobustScaler()
+# Load the machine learning models and scalers from the saved files
+model_price = pickle.load(open('model_price.pkl', 'rb'))
+model_surge = pickle.load(open('model_surge.pkl', 'rb'))
+scalar_X = pickle.load(open('scalar_X.pkl', 'rb'))
+scalar_y = pickle.load(open('scalar_y.pkl', 'rb'))
+scalar_Xs = pickle.load(open('scalar_X_surge.pkl', 'rb'))
+scalar_ys = pickle.load(open('scalar_y_surge.pkl', 'rb'))
 
 @app.route('/', methods=['GET'])
-
 def hello():
     return render_template('index.html')
 
@@ -18,65 +20,62 @@ def hello():
 def predict():
     # Get user inputs from the form
     hour = request.form['hour']
-    day = request.form['day']
-    month = request.form['month']
     source = request.form['source']
     destination = request.form['destination']
     cab_type = request.form['cab_type']
-    product_id = request.form['product_id']
     name = request.form['name']
     distance = float(request.form['distance'])
-    surge_multiplier = float(request.form['surge_multiplier'])
     temperature = float(request.form['temperature'])
     short_summary = request.form['short_summary']
-    precipIntensity = float(request.form['precipIntensity'])
-    humidity = float(request.form['humidity'])
-    windSpeed = float(request.form['windSpeed'])
-    visibility = float(request.form['visibility'])
-    dewPoint = float(request.form['dewPoint'])
-    pressure = float(request.form['pressure'])
-    windBearing = float(request.form['windBearing'])
-    cloudCover = float(request.form['cloudCover'])
-    uvIndex = request.form['uvIndex']
-    ozone = float(request.form['ozone'])
-    moonPhase = float(request.form['moonPhase'])
-    precipIntensityMax = float(request.form['precipIntensityMax'])
 
-    # Make a prediction using the loaded model
+    # Create a DataFrame with user inputs
     input_data = pd.DataFrame({'hour': [hour],
-                               'day': [day],
-                               'month': [month],
                                'source': [source],
                                'destination': [destination],
                                'cab_type': [cab_type],
-                               'product_id': [product_id],
                                'name': [name],
                                'distance': [distance],
-                               'surge_multiplier': [surge_multiplier],
                                'temperature': [temperature],
-                               'short_summary': [short_summary],
-                               'precipIntensity': [precipIntensity],
-                               'humidity': [humidity],
-                               'windSpeed': [windSpeed],
-                               'visibility': [visibility],
-                               'dewPoint': [dewPoint],
-                               'pressure': [pressure],
-                               'windBearing': [windBearing],
-                               'cloudCover': [cloudCover],
-                               'uvIndex': [uvIndex],
-                               'ozone': [ozone],
-                               'moonPhase': [moonPhase],
-                               'precipIntensityMax' : [precipIntensityMax]
+                               'short_summary': [short_summary]
                                })
     
-    scaled_features = robust_scaler.fit_transform(input_data)
-    scaled_input = pd.DataFrame(scaled_features, columns=input_data.columns)
+    # Select relevant features for surge prediction
+    Xs = input_data[['cab_type', 'source', 'destination', 'hour', 'temperature', 'short_summary']]
+    
+    # Scale the features for surge prediction
+    scaled_features = scalar_Xs.transform(Xs)
+    Xs_scaled = pd.DataFrame(scaled_features, columns=Xs.columns)
 
-    predicted_price = loaded_model.predict(scaled_input)
+    # Predict the surge multiplier
+    predicted_surge = model_surge.predict(Xs_scaled)
 
-    predicted_price = round(predicted_price[0], 1)
+    # Inverse transform to get non-scaled surge multiplier
+    predicted_surge_non_scaled = scalar_ys.inverse_transform(predicted_surge.reshape(-1, 1))
 
-    return render_template('index.html', prediction=predicted_price)
+    # Round the surge multiplier to 2 decimal places
+    predicted_surge = predicted_surge_non_scaled.round(2)
+
+    # Add the surge multiplier to the input data
+    input_data['surge_multiplier'] = predicted_surge.flatten()
+
+    # Select features for price prediction
+    X = input_data[['surge_multiplier', 'name', 'cab_type', 'distance', 'short_summary']]
+
+    # Scale the features for price prediction
+    scaled_features = scalar_X.transform(X)
+    X_scaled = pd.DataFrame(scaled_features, columns=X.columns)
+
+    # Predict the price
+    predict_price = model_price.predict(X_scaled)
+
+    # Inverse transform to get non-scaled price
+    predict_price_non_scaled = scalar_y.inverse_transform(predict_price.reshape(-1, 1))
+
+    # Round the price to 2 decimal places
+    predict_price = predict_price_non_scaled.round(2)
+
+    # Render the result in the 'index.html' template
+    return render_template('index.html', prediction=predict_price[0][0])
 
 if __name__ == '__main__':
     app.run(port=3000, debug=True)

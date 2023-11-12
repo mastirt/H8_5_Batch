@@ -1,170 +1,118 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Document</title>
+    <title>Uber vs Lyft</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
-    <h1 class="text-center">Machine Learning Model Development</h1>
+    <div class="container">
+        <div class="row justify-content-center mt-3">
+            <div class="col-6">
+                <h1 class="text-center">Uber and Lyft price prediction</h1>
 
-    {% if prediction %}
-        <h3 class="text-center"> Price is ${{prediction}}</h3>
-    {% endif %}
+                {% if prediction %}
+                    <br>
+                    <h3 class="text-center">Price is ${{prediction}}</h3>
+                {% endif %}
+            </div>
+        </div>
 
-    <form class="ps-3" action="/" method="post">
-        <!-- 'hour' numbering -->
-        <label for="hour">Hour: (0 - 23)</label>
-        <input type="number" id="hour" name="hour" min="0" max="23" required><br><br>
+        <form class="ps-3" action="/" method="post">
+            <div class="row">
+                <div class="col-6">
+                    <!-- 'hour' numbering -->
+                    <label for="hour">Hour: (0 - 23)</label>
+                    <input type="number" id="hour" name="hour" min="0" max="23" required><br><br>
 
-        <!-- 'day' numbering -->
-        <label for="day">Day: (1 - 31)</label>
-        <input type="number" id="day" name="day" min="1" max="31" required><br><br>
+                    <!-- Dropdown for 'source' -->
+                    <label for="source">Source:</label>
+                    <select name="source" id="source">
+                        <option value="0">Back Bay</option>
+                        <option value="1">Beacon Hill </option>
+                        <option value="2">Boston University</option>
+                        <option value="3">Fenway</option>
+                        <option value="4">Financial District</option>
+                        <option value="5">Haymarket Square</option>
+                        <option value="6">North End</option>
+                        <option value="7">North Station</option>
+                        <option value="8">Northeastern University</option>
+                        <option value="9">South Station</option>
+                        <option value="10">Theatre District</option>
+                        <option value="11">West End</option>
+                    </select><br><br>
 
-        <!-- 'month' numbering -->
-        <label for="month">Month: (1 - 12)</label>
-        <input type="number" id="month" name="month" min="1" max="12" required><br><br>
+                    <!-- Dropdown for 'destination' -->
+                    <label for="destination">Destination:</label>
+                    <select name="destination" id="destination">
+                        <option value="0">Back Bay</option>
+                        <option value="1">Beacon Hill </option>
+                        <option value="2">Boston University</option>
+                        <option value="3">Fenway</option>
+                        <option value="4">Financial District</option>
+                        <option value="5">Haymarket Square</option>
+                        <option value="6">North End</option>
+                        <option value="7">North Station</option>
+                        <option value="8">Northeastern University</option>
+                        <option value="9">South Station</option>
+                        <option value="10">Theatre District</option>
+                        <option value="11">West End</option>
+                    </select><br><br>
 
+                    <!-- Dropdown for 'cab_type' -->
+                    <label for="cab_type">Cab Type:</label>
+                    <select name="cab_type" id="cab_type">
+                        <option value="0">Lyft</option>
+                        <option value="1">Uber</option>
+                    </select><br><br>
 
-        <label for="source">Source:</label>
-        <select name="source" id="source">
-            <option value="0">Back Bay</option>
-            <option value="1">Beacon Hill </option>
-            <option value="2">Boston University</option>
-            <option value="3">Fenway</option>
-            <option value="4">Financial District</option>
-            <option value="5">Haymarket Square</option>
-            <option value="6">North End</option>
-            <option value="7">North Station</option>
-            <option value="8">Northeastern University</option>
-            <option value="9">South Station</option>
-            <option value="10">Theatre District</option>
-            <option value="11">West End</option>
-        </select><br><br>
+                    <!-- Dropdown for 'name' -->
+                    <label for="name">Name:</label>
+                    <select name="name" id="name">
+                        <option value="0">Black</option>
+                        <option value="1">Black SUV</option>
+                        <option value="2">Lux</option>
+                        <option value="3">Lux Black</option>
+                        <option value="4">Lux Black XL</option>
+                        <option value="5">Lyft</option>
+                        <option value="6">Lyft XL</option>
+                        <option value="7">Shared</option>
+                        <option value="8">UberPool</option>
+                        <option value="9">UberX</option>
+                        <option value="10">UberXL</option>
+                        <option value="11">WAV</option>
+                    </select><br><br>
 
-        <label for="destination">Destination:</label>
-        <select name="destination" id="destination">
-            <option value="0">Back Bay</option>
-            <option value="1">Beacon Hill </option>
-            <option value="2">Boston University</option>
-            <option value="3">Fenway</option>
-            <option value="4">Financial District</option>
-            <option value="5">Haymarket Square</option>
-            <option value="6">North End</option>
-            <option value="7">North Station</option>
-            <option value="8">Northeastern University</option>
-            <option value="9">South Station</option>
-            <option value="10">Theatre District</option>
-            <option value="11">West End</option>
-        </select><br><br>
+                    <!-- Input for 'distance' -->
+                    <label for="distance">Distance: (2 angka dibelakang koma (0.02))</label>
+                    <input type="text" name="distance" id="distance"><br><br>
 
-        <label for="cab_type">Cab Type:</label>
-        <select name="cab_type" id="cab_type">
-            <option value="0">Lyft</option>
-            <option value="1">Uber</option>
-        </select><br><br>
+                    <!-- Input for 'temperature' -->
+                    <label for="temperature">Temperature: (2 angka dibelakang koma (18.92))</label>
+                    <input type="text" name="temperature" id="temperature"><br><br>
 
-        <label for="product_id">Product ID:</label>
-        <select name="product_id" id="product_id">
-            <option value="0">55c66225</option>
-            <option value="1">6c84fd89</option>
-            <option value="2">6d318bcc</option>
-            <option value="3">6f72dfc5</option>
-            <option value="4">997acbb5</option>
-            <option value="5">9a0e7b09</option>
-            <option value="6">lyft</option>
-            <option value="7">lyft_line</option>
-            <option value="8">lyft_lux</option>
-            <option value="9">lyft_luxsuv</option>
-            <option value="10">lyft_plus</option>
-            <option value="11">lyft_premier</option>
-            <!-- Add more options for product IDs -->
-        </select><br><br>
+                    <!-- Dropdown for 'short_summary' -->
+                    <label for="short_summary">Short Summary:</label>
+                    <select name="short_summary" id="short_summary">
+                        <option value="0">Clear</option>
+                        <option value="1">Drizzle</option>
+                        <option value="2">Foggy</option>
+                        <option value="3">Light Rain</option>
+                        <option value="4">Mostly Cloudy</option>
+                        <option value="5">Overcast</option>
+                        <option value="6">Partly Cloudy</option>
+                        <option value="7">Possible Drizzle</option>
+                        <option value="8">Rain</option>
+                    </select><br><br>
+                </div>
+            </div>
+            
+            <!-- Submit button -->
+            <input type="submit" value="Predict Price">
+        </form>
+        
+    </div>
 
-        <label for="name">Name:</label>
-        <select name="name" id="name">
-            <option value="0">Black</option>
-            <option value="1">Black SUV</option>
-            <option value="2">Lux</option>
-            <option value="3">Lux Black</option>
-            <option value="4">Lux Black XL</option>
-            <option value="5">Lyft</option>
-            <option value="6">Lyft XL</option>
-            <option value="7">Shared</option>
-            <option value="8">UberPool</option>
-            <option value="9">UberX</option>
-            <option value="10">UberXL</option>
-            <option value="11">WAV</option>
-        </select><br><br>
-
-        <label for="distance">Distance: (2 angka dibelakang koma (0.02))</label>
-        <input type="text" name="distance" id="distance"><br><br>
-
-        <label for="surge_multiplier">Surge Multiplier:</label>
-        <select name="surge_multiplier" id="surge_multiplier" required>
-            <option value="1.0">1.0</option>
-            <option value="1.25">1.25</option>
-            <option value="2.5">2.5</option>
-            <option value="2.0">2.0</option>
-            <option value="1.75">1.75</option>
-            <option value="1.5">1.5</option>
-            <option value="3.0">3.0</option>
-        </select><br><br>
-
-        <label for="temperature">Temperature: (2 angka dibelakang koma (18.92))</label>
-        <input type="text" name="temperature" id="temperature"><br><br>
-
-        <label for="short_summary">Short Summary:</label>
-        <select name="short_summary" id="short_summary">
-            <option value="0">Clear</option>
-            <option value="1">Drizzle</option>
-            <option value="2">Foggy</option>
-            <option value="3">Light Rain</option>
-            <option value="4">Mostly Cloudy</option>
-            <option value="5">Overcast</option>
-            <option value="6">Partly Cloudy</option>
-            <option value="7">Possible Drizzle</option>
-            <option value="8">Rain</option>
-        </select><br><br>
-
-        <label for="precipIntensity">Precipitation Intensity: (4 angka dibelakang koma (0.0002))</label>
-        <input type="text" name="precipIntensity" id="precipIntensity"><br><br>
-
-        <label for="humidity">Humidity: (2 angka dibelakang koma (0.38))</label>
-        <input type="text" name="humidity" id="humidity"><br><br>
-
-        <label for="windSpeed">Wind Speed: (2 angka dibelakang koma (0.38))</label>
-        <input type="text" name="windSpeed" id="windSpeed"><br><br>
-
-        <label for="visibility">Visibility: (3 angka dibelakang koma (0.965))</label>
-        <input type="text" name="visibility" id="visibility"><br><br>
-
-        <label for="dewPoint">Dew Point: (2 angka dibelakang koma (4.39))</label>
-        <input type="text" name="dewPoint" id="dewPoint"><br><br>
-
-        <label for="pressure">Pressure: (3 angka dibelakang koma (988.09))</label>
-        <input type="text" name="pressure" id="pressure"><br><br>
-
-        <label for="windBearing">Wind Bearing: (Bilangan Bulat (13))</label>
-        <input type="text" name="windBearing" id="windBearing"><br><br>
-
-        <label for="cloudCover">Cloud Cover: (2 angka dibelakang koma (0.96))</label>
-        <input type="text" name="cloudCover" id="cloudCover"><br><br>
-
-        <label for="uvIndex">UV Index:</label>
-        <input type="number" id="uvIndex" name="uvIndex" min="0" max="2" required><br><br>
-
-        <label for="ozone">Ozone: (1 angka dibelakang koma (269.9))</label>
-        <input type="text" name="ozone" id="ozone"><br><br>
-
-        <label for="moonPhase">Moon Phase: (2 angka dibelakang koma (0.27))</label>
-        <input type="text" name="moonPhase" id="moonPhase"><br><br>
-
-        <label for="precipIntensityMax">precip Intensity Max: (4 angka dibelakang koma (0.1459))</label>
-        <input type="text" name="precipIntensityMax" id="precipIntensityMax"><br><br>
-
-        <input type="submit" value="Predict Price">
-    </form>
-
+    <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
