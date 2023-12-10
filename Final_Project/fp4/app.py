@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # Load the machine learning models and scalers from the saved files
 model_pca = pickle.load(open('model_pca.pkl', 'rb'))
-model_logit = pickle.load(open('model_logic_smote.pkl', 'rb'))
+model_rf = pickle.load(open('model_rf.pkl', 'rb'))
 scalar = pickle.load(open('fiture_scaler.pkl', 'rb'))
 
 @app.route('/', methods=['GET'])
@@ -67,7 +67,7 @@ def predict():
                                             'principal component 5', 'principal component 6'])
 
     # Predict the tenure
-    predict_new_data = model_logit.predict(principalComponents_df)
+    predict_new_data = model_rf.predict(principalComponents_df)
 
     # Render the result in the 'index.html' template
     return render_template('index.html', prediction=predict_new_data[0])
