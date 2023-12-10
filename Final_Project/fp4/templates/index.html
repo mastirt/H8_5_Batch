@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Credit Card Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-3">
+            <div class="col-6">
+                <h1 class="text-center">Credit Card Prediction</h1>
+                <br><br>
+            </div>
+        </div>
+        <br><br>
+        {% if prediction %}
+            <br>
+            <h3 class="text-center">Tenure Anda adalah {{prediction}} Bulan</h3>
+        {% endif %}
+        
+        <form class="ps-3" action="/" method="post">
+            <div class="row">
+                <div class="col-6">
+                    <table class="table">
+                        <tr>
+                            <td><label for="balance_frequency">Balance:</label></td>
+                            <td><input type="text" id="balance" name="balance" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="balance_frequency">Balance Frequency :</label></td>
+                            <td><input type="text" id="balance_frequency" name="balance_frequency" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="purchases">Purchases :</label></td>
+                            <td><input type="text" id="purchases" name="purchases" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="oneoff_purchases">One-off Purchases :</label></td>
+                            <td><input type="text" id="oneoff_purchases" name="oneoff_purchases" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="installments_purchases">Installments Purchases :</label></td>
+                            <td><input type="text" id="installments_purchases" name="installments_purchases" required></td>
+                        </tr>
+
+                        <tr>
+                            <td><label for="cash_advance">Cash Advance :</label></td>
+                            <td><input type="text" id="cash_advance" name="cash_advance" required></td>
+                        </tr>
+
+                        <tr>
+                            <td><label for="purchases_frequency">Purchases Frequency :</label></td>
+                            <td><input type="text" id="purchases_frequency" name="purchases_frequency" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="oneoff_purchases_frequency">One-off Purchases Frequency :</label></td>
+                            <td><input type="text" id="oneoff_purchases_frequency" name="oneoff_purchases_frequency" required></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="col-6">
+                    <table class="table">
+                        <tr>
+                            <td><label for="purchases_installments_frequency">Purchases Installments Frequency :</label></td>
+                            <td><input type="text" id="purchases_installments_frequency" name="purchases_installments_frequency" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="cash_advance_frequency">Cash Advance Frequency :</label></td>
+                            <td><input type="text" id="cash_advance_frequency" name="cash_advance_frequency" required></td>
+                        </tr>
+
+                        <tr>
+                            <td><label for="cash_advance_trx">Cash Advance Trx :</label></td>
+                            <td><input type="text" id="cash_advance_trx" name="cash_advance_trx" required></td>
+                        </tr>
+
+                        <tr>
+                            <td><label for="purchases_trx">Purchases Trx :</label></td>
+                            <td><input type="text" id="purchases_trx" name="purchases_trx" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="credit_limit">Credit Limit :</label></td>
+                            <td><input type="text" id="credit_limit" name="credit_limit" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="payments">Payments :</label></td>
+                            <td><input type="text" id="payments" name="payments" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="minimum_payments">Minimum Payments :</label></td>
+                            <td><input type="text" id="minimum_payments" name="minimum_payments" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="prc_full_payment">Price Full Payment :</label></td>
+                            <td><input type="text" id="prc_full_payment" name="prc_full_payment" required></td>
+                        </tr>
+                    </table>
+                    <input type="submit" value="Predict Tenure">
+                </div>
+            </div>
+
+            <!-- Submit button -->
+        </form>
+    </div>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
